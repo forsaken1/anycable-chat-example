@@ -1,5 +1,5 @@
 development:
-  adapter: async
+  adapter: any_cable
 
 test:
   adapter: test
