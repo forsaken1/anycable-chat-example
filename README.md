@@ -1,24 +1,9 @@
-# README
+# Chats Rails Example
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Run
 
-Things you may want to cover:
+* `bundle exec rails s`
 
-* Ruby version
+* `bundle exec anycable`
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* `anycable-go --host=localhost --port=3334`
