@@ -1,6 +1,6 @@
 import React from "react"
-import { ListGroup, Tab, Row, Col } from 'react-bootstrap'
-import { ActionCable } from 'react-actioncable-provider';
+import { ListGroup, Button, Row, Col } from 'react-bootstrap'
+import { ActionCable } from 'react-actioncable-provider'
 
 const HEADERS = {
   'Content-Type': 'application/json',
@@ -14,7 +14,8 @@ class Chats extends React.Component {
     this.state = {
       users: [],
       messages: [],
-      selectedUser: null
+      selectedUser: null,
+      message: ''
     }
   }
 
@@ -50,15 +51,24 @@ class Chats extends React.Component {
   }
 
   handleSendButton = event => {
-    const { selectedUser } = this.state;
-    const { currentUser } = this.props;
-    const data = JSON.stringify({user_from_id: currentUser, user_to_id: selectedUser.id, text: 'test'});
+    event.preventDefault();
+
+    const { selectedUser, message } = this.state;
+    const { currentUserId } = this.props;
+    const data = JSON.stringify({user_from_id: currentUserId, user_to_id: selectedUser.id, text: message});
 
     fetch('/messages', { method: 'POST', body: data, headers: HEADERS })
+      .then(_ => this.setState({message: ''}))
+  }
+
+  handleUpdateTextarea = event => {
+    const message = event.currentTarget.value;
+    this.setState({message});
   }
 
   render() {
-    const { users, messages } = this.state
+    const { users, messages, message } = this.state
+    const { currentUserId } = this.props;
 
     return (
       <Row className="chats-container">
@@ -73,10 +83,14 @@ class Chats extends React.Component {
           </ListGroup>
         </Col>
         <Col sm={8}>
-          <ListGroup>
-            {messages.map((message, i) => <ListGroup.Item key={i}>{message.text}</ListGroup.Item>)}
-          </ListGroup>
-          <button onClick={this.handleSendButton}>Send</button>
+          <div className="messages-container">
+            {messages.map((message, i) =>
+              <div key={i} className={'message' + (message.user_from_id == currentUserId ? ' message__right' : '')}>{message.text}</div>)}
+          </div>
+          <div className="actions">
+            <textarea value={message} onChange={this.handleUpdateTextarea} className="message-field"/>
+            <Button variant="primary" onClick={this.handleSendButton} className="btn btn-default send-message-button">Send</Button>
+          </div>
         </Col>
       </Row>
     )

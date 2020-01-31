@@ -1,2 +1,44 @@
 .chats-container
   padding: 20px
+
+  .messages-container
+    height: 70vh
+    scroll: auto
+    border: 1px solid rgba(0,0,0,.125)
+    border-top-left-radius: .25rem
+    border-top-right-radius: .25rem
+    padding: 10px
+    display: flex
+    flex-direction: column
+
+    .message
+      padding: 10px
+      border: 1px solid rgba(0,0,0,.125)
+      border-radius: 15px
+      margin: 0 0 10px 0
+      max-width: 70%
+      align-self: flex-start
+      background-color: #fff9e9
+
+      &__right
+        align-self: flex-end
+        background-color: #cee5ff
+
+  .actions
+    display: flex
+    width: 100%
+
+    .message-field
+      border: 1px solid rgba(0,0,0,.125)
+      border-bottom-left-radius: .25rem
+      height: 40px
+      width: calc(100% - 80px)
+      resize: none
+
+    .send-message-button
+      height: 40px
+      width: 80px
+      border-top-left-radius: 0
+      border-top-right-radius: 0
+      border-bottom-left-radius: 0
+      border-bottom-right-radius: .25rem

@@ -3,5 +3,4 @@ Rails.application.routes.draw do
   resources :users, only: [:index]
   resources :messages, only: [:index, :create]
   root 'application#home'
-  # mount ActionCable.server => '/cable'
 end

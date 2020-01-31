@@ -3,9 +3,9 @@ class MessagesController < ApplicationController
 
   def index
     messages = Message.all
-    messages = messages.where(user_from_id: params[:user_from_id]) if params[:user_from_id]
-    messages = messages.or(Message.where(user_to_id: params[:user_to_id])) if params[:user_to_id]
-    render json: messages
+    messages = messages.where(user_from_id: params[:user_from_id], user_to: current_user) if params[:user_from_id]
+    messages = messages.or(Message.where(user_to_id: params[:user_to_id], user_from: current_user)) if params[:user_to_id]
+    render json: messages.order(:created_at)
   end
 
   def create
