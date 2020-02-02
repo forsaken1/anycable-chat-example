@@ -1,4 +1,4 @@
-# Chats Rails Anycable Example
+# Personal Chats Rails Anycable React.js Example
 
 ## Installation
 
@@ -20,7 +20,7 @@
 
 ## Details
 
-1. Define Channel on the server. `ChatsHelper.name` returns string with unique channel name, for example, "chat-1-2" - chat between users with ids: 1 and 2
+1. Define Channel on the server. `ChatsHelper.name` returns string with unique channel name, for example, "chat-1-2" - chat between users with ids: 1 and 2 [link](https://github.com/forsaken1/anycable-chat-example/blob/master/app/channels/messages_channel.rb)
 
 ```ruby
 class MessagesChannel < ApplicationCable::Channel
@@ -33,7 +33,7 @@ class MessagesChannel < ApplicationCable::Channel
 end
 ```
 
-2. Set up connection with MessageChannel on the client for each user conversation, where `user_id` will pass to the MessageChannel as `params[:user_id]`
+2. Set up connection with MessageChannel on the client for each user conversation, where `user_id` will pass to the MessageChannel as `params[:user_id]` [link](https://github.com/forsaken1/anycable-chat-example/blob/master/app/javascript/components/Chats.js#L93)
 
 ```es6
 {users.map((user, i) =>
@@ -43,7 +43,7 @@ end
     onReceived={response => this.handleReceivedConversation(user.id, response)}/>)}
 ```
 
-3. Send a message to channel when message created. 
+3. Send a message to channel when message created [link](https://github.com/forsaken1/anycable-chat-example/blob/master/app/controllers/messages_controller.rb#L14)
 
 ```ruby
 def create
@@ -58,7 +58,7 @@ def create
 end
 ```
 
-4. You should define handler which will listen channel on the client and process a data from server
+4. You should define handler which will listen channel on the client and process a data from server [link](https://github.com/forsaken1/anycable-chat-example/blob/master/app/javascript/components/Chats.js#L54)
 
 ```es6
 handleReceivedConversation = (userId, response) => {
@@ -68,3 +68,10 @@ handleReceivedConversation = (userId, response) => {
   this.setState({conversations: {...conversations, [userId]: [...messages, response]}}, this.scrollDown);
 }
 ```
+
+## Links
+
+* https://docs.anycable.io/#/ruby/rails
+* https://medium.com/@dakota.lillie/using-action-cable-with-react-c37df065f296
+* http://laithazer.com/blog/2017/03/25/rails-actioncable-stream-for-vs-stream-from/
+* http://rusrails.ru/action-cable-overview
