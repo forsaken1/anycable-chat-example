@@ -69,6 +69,61 @@ handleReceivedConversation = (userId, response) => {
 }
 ```
 
+## Production server configuration 
+
+1. `/etc/systemd/system/anycable-go.service`:
+
+```
+[Unit]
+Description=Production AnyCable Go WebSocket Server
+After=syslog.target network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/anycable-go --port=8080 --rpc_host=localhost:50051 --redis_channel=__anycable_production__
+ExecStop=/bin/kill -TERM $MAINPID
+
+# User=xxx
+# Group=xxx
+UMask=0002
+LimitNOFILE=16384 # increase open files limit (see OS Tuning guide)
+
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+2. `/etc/systemd/system/anycable-rpc.service`:
+
+```
+[Unit]
+Description=Production AnyCable gRPC Server
+After=syslog.target network.target
+
+[Service]
+Type=simple
+Environment=RAILS_ENV=production
+WorkingDirectory=/project/path/current/
+ExecStart=/bin/bash -lc 'bundle exec anycable --rpc-host=localhost:50051 --redis-channel=__anycable_production__'
+ExecStop=/bin/kill -TERM $MAINPID
+
+# Set user/group
+User=your_user
+# Group=www
+# UMask=0002
+
+# Set memory limits
+MemoryHigh=1G
+MemoryMax=1G
+# MemoryAccounting=true
+
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
 ## Links
 
 * https://docs.anycable.io/#/ruby/rails
