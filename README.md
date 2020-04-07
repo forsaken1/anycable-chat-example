@@ -18,6 +18,22 @@
 
 * `bundle exec rails s`
 
+## Infrastructure
+
+from: https://evilmartians.com/chronicles/anycable-actioncable-on-steroids
+
+1. AnyCable WebSocket server provides low-level connections (sockets) management, subscriptions management and broadcasting messages to clients.
+2. Anycable RPC server is a connector between Rails application and WebSocket server. This server is a part of the anycable gem.
+3. Redis pub/sub used for sending messages from the application to the WS server, which then broadcasts the messages to clients.
+
+```
+[React app] <-> [Rails app] (default port 3000)>-------------------------
+     ^                                                                  |
+     |          [Anycable RPC server] (default port 50051)           [Redis] (default port 6379)
+     |               |                                                  |
+     ---------< [Websocket server] (default port 3334)<------------------
+```
+
 ## Details
 
 1. Define Channel on the server. `ChatsHelper.name` returns string with unique channel name, for example, "chat-1-2" - chat between users with ids: 1 and 2 [link](https://github.com/forsaken1/anycable-chat-example/blob/master/app/channels/messages_channel.rb)
@@ -127,6 +143,7 @@ WantedBy=multi-user.target
 ## Links
 
 * https://docs.anycable.io/#/ruby/rails
+* https://evilmartians.com/chronicles/anycable-actioncable-on-steroids
 * https://medium.com/@dakota.lillie/using-action-cable-with-react-c37df065f296
 * http://laithazer.com/blog/2017/03/25/rails-actioncable-stream-for-vs-stream-from/
 * http://rusrails.ru/action-cable-overview
