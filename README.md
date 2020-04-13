@@ -1,5 +1,9 @@
 # Personal Chats Rails Anycable React.js Example
 
+## Reference
+
+You can see, how it works on Phoenix (Elixir) here: https://github.com/forsaken1/phoenix-chats-example
+
 ## Installation
 
 * `bundle install`
