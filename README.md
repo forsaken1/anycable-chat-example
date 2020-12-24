@@ -144,6 +144,23 @@ Restart=on-failure
 WantedBy=multi-user.target
 ```
 
+3. nginx
+
+```
+server {
+
+  ...
+
+  location /anycable {
+    proxy_pass http://127.0.0.1:8080/cable;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+  }
+  
+  ...
+```
+
 ## Links
 
 * https://docs.anycable.io/#/ruby/rails
