@@ -169,6 +169,56 @@ server {
   ...
 ```
 
+4. config/anycable.yml
+
+```
+default: &default
+  rpc_host: "localhost:50051"
+  log_grpc: false
+  log_file: nil
+  debug: false
+  log_level: info
+  redis_channel: "__anycable__"
+  redis_url: "redis://localhost:6379"
+  redis_sentinels: []
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+staging:
+  <<: *default
+  rpc_host: "localhost:50052"
+  redis_channel: "__anycable_staging__"
+
+production:
+  <<: *default
+  rpc_host: "localhost:50051"
+  redis_channel: "__anycable_production__"
+```
+
+5. config/cable.yml
+
+```
+development:
+  adapter: any_cable
+
+test:
+  adapter: async
+
+staging:
+  adapter: any_cable
+  url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
+  channel_prefix: anycable_staging
+
+production:
+  adapter: any_cable
+  url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
+  channel_prefix: anycable_production
+```
+
 ## Links
 
 * https://docs.anycable.io/#/ruby/rails
