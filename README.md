@@ -126,6 +126,7 @@ Type=simple
 Environment=RAILS_ENV=production
 WorkingDirectory=/project/path/current/
 ExecStart=/bin/bash -lc 'bundle exec anycable --rpc-host=localhost:50051 --redis-channel=__anycable_production__'
+# ExecStart=/home/balloon/.rbenv/bin/rbenv exec bundle exec anycable --rpc-host=localhost:50051 --redis-channel=__anycable_production__
 ExecStop=/bin/kill -TERM $MAINPID
 
 # Set user/group
