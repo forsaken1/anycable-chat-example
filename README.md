@@ -114,6 +114,12 @@ Restart=on-failure
 WantedBy=multi-user.target
 ```
 
+and run it: `sudo systemctl start anycable-go`
+
+status: `sudo systemctl status anycable-go`
+
+logs: `sudo journalctl -u anycable-go --since today`
+
 2. `/etc/systemd/system/anycable-rpc.service`:
 
 ```
@@ -126,6 +132,7 @@ Type=simple
 Environment=RAILS_ENV=production
 WorkingDirectory=/project/path/current/
 ExecStart=/bin/bash -lc 'bundle exec anycable --rpc-host=localhost:50051 --redis-channel=__anycable_production__'
+# or try use:
 # ExecStart=/home/balloon/.rbenv/bin/rbenv exec bundle exec anycable --rpc-host=localhost:50051 --redis-channel=__anycable_production__
 ExecStop=/bin/kill -TERM $MAINPID
 
